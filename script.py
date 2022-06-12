@@ -80,7 +80,7 @@ def main():
                 tf.keras.layers.Embedding(
                     len(unique_user_ids) + 1, embedding_dimension)
             ])
-            # Set up movie representation.
+            # Set up event representation.
             self.event_model = tf.keras.Sequential([
                 tf.keras.layers.StringLookup(
                     vocabulary=unique_event_id, mask_token=None),
@@ -98,9 +98,9 @@ def main():
         def compute_loss(self, features: Dict[Text, tf.Tensor], training=False) -> tf.Tensor:
 
             user_embeddings = self.user_model(features["userId"])
-            movie_embeddings = self.event_model(features["eventId"])
+            event_embeddings = self.event_model(features["eventId"])
 
-            return self.task(user_embeddings, movie_embeddings)
+            return self.task(user_embeddings, event_embeddings)
 
     model = Model()
     model.compile(optimizer=tf.keras.optimizers.Adagrad(0.5))
@@ -151,8 +151,8 @@ def main():
 
 
 if __name__ == '__main__':
-    # schedule.every(1).minutes.do(main)                 # pake ini kalau permenit
-    schedule.every().day.at("12:00").do(main)            # pake ini klo perhari
+    # schedule.every(1).minutes.do(main)
+    schedule.every().day.at("12:00").do(main)
     print('\n\n please wait until next schedule')
 
     while True:
