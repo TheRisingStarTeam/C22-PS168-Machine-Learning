@@ -55,14 +55,14 @@ def main():
         lambda x: {'userId': x[0], 'eventId': x[1]})
 
     # hyper parameter tuning
-    embedding_dimension = 512
+    embedding_dimension = 128
     unique_user_ids = dfUser.userId.to_list()
     unique_event_id = dfEvent.eventId.to_list()
     lenData = combinedRelation.__len__().numpy()
     trainSize = int(lenData*80/100)
     testSize = int(lenData-trainSize)
-    batch = 64
-    epoch = 50
+    batch = 32
+    epoch = 100
     jumlahRekomendasi = 10
 
     # build model
